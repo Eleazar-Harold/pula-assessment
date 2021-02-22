@@ -10,4 +10,4 @@ COPY . /code
 RUN pip install --upgrade pip
 RUN pip install pipenv
 RUN pipenv install --system --deploy --ignore-pipfile
-CMD ["/bin/bash", "./run.sh"]
+CMD ["/bin/bash", "./apprun.sh"]

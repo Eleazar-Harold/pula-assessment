@@ -22,3 +22,8 @@ class HarvestQueryset(models.QuerySet):
 
     def with_resources(self):
         return self.filter(resources__isnull=False)
+
+
+class ResourceQueryset(models.QuerySet):
+    def for_harvest(self, harvest):
+        return self.filter(harvest=harvest)

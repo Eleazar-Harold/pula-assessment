@@ -49,7 +49,7 @@ services:
   
   wkr:
     <<: *app
-    command: chmod +x ./celery.sh
+    command: chmod +x ./appcelery.sh
     restart: "on-failure"
     ports: []
     depends_on: 

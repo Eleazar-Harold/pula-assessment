@@ -3,9 +3,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from location_field.models.plain import PlainLocationField
 
-from .querysets import (
+from sourcing.querysets import (
     FarmQueryset,
     HarvestQueryset,
+    ResourceQueryset,
 )
 import uuid
 
@@ -52,3 +53,5 @@ class Resource(Base):
         Harvest, related_name=_("resources"), on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to="resources")
+
+    objects = ResourceQueryset.as_manager()

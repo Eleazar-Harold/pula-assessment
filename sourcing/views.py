@@ -9,6 +9,10 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.authtoken.models import Token
 
+from sourcing.serializer import (
+    UserSerializer,
+)
+
 # Create your views here.
 
 
