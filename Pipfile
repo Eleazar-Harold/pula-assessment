@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django = "==2.2.19"
+djangorestframework = "*"
+requests = "*"
+python-decouple = "*"
+dj-static = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+celery = {extras = ["redis"],version = "*"}
+django-celery-beat = "*"
+django-celery-results = "*"
+django-storages = "*"
+django-location-field = "*"
+pillow = "*"
+
+[requires]
+python_version = "3.7"

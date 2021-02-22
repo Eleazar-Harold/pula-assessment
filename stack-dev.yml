@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  # app
+  app: &app
+    environment:
+      - DB_NAME=${PG_DB_NAME}
+      - DB_USER=${PG_DB_USER}
+      - DB_PSRD=${PG_DB_PSWD}
+      - DB_HOST=${PG_DB_HOST}
+      - DB_PORT=${PG_DB_PORT}
+      - REDIS_URL=${REDIS_URL}
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - PROD=${PROD}
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "4000:80"
+    restart: "always"
+    depends_on:
+      - ${PG_DB_HOST}
+      - rds
+      - wkr
+    links:
+      - db
+      - rds
+
+  # database
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=${PG_DB_NAME}
+      - POSTGRES_USER=${PG_DB_USER}
+      - POSTGRES_PASSWORD=${PG_DB_PSWD}
+      - PGPORT=${PG_DB_PORT}
+    ports:
+      - "${PG_DB_PORT}:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+    restart: "always"
+
+  # redis 
+  rds:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    restart: "always"
+  
+  wkr:
+    <<: *app
+    command: chmod +x ./celery.sh
+    restart: "on-failure"
+    ports: []
+    depends_on: 
+      - rds
+      - db
+    links: 
+      - rds
+      - db
+
+volumes:
+  data:
