@@ -78,20 +78,10 @@ class UserViewSet(viewsets.ModelViewSet):
             {"token": token.key}, status=status.HTTP_201_CREATED, headers=headers
         )
 
-    def list(self, request):
-        queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, pk=None):
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-
 
 """
-class that creates, updates and gets farms against api-key/auth-token for use by other services
+class that creates, updates and gets farms against 
+api-key/auth-token for use by other services
 """
 
 
@@ -99,7 +89,7 @@ class FarmViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
     serializer_class = FarmSerializer
-    queryset = Farm.objects.none()
+    queryset = Farm.objects.all()
     filter_backends = (filters.SearchFilter,)
     search_fields = (
         "name",
@@ -108,11 +98,6 @@ class FarmViewSet(viewsets.ModelViewSet):
         "farms",
     )
 
-    def list(self, request):
-        queryset = Farm.objects.all()
-        serializer = FarmSerializer(queryset, many=True)
-        return Response(serializer.data)
-
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -120,24 +105,10 @@ class FarmViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(status=status.HTTP_201_CREATED, headers=headers)
 
-    def retrieve(self, request, pk=None):
-        queryset = Farm.objects.all()
-        farm = get_object_or_404(queryset, pk=pk)
-        serializer = FarmSerializer(farm)
-        return Response(serializer.data)
-
-    def update(self, request, pk=None):
-        pass
-
-    def partial_update(self, request, pk=None):
-        pass
-
-    def destroy(self, request, pk=None):
-        pass
-
 
 """
-class that creates, updates and gets harvests against api-key/auth-token for use by other services
+class that creates, updates and gets harvests against 
+api-key/auth-token for use by other services
 """
 
 
@@ -145,13 +116,8 @@ class HarvestViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
     serializer_class = HarvestSerializer
-    queryset = Harvest.objects.none()
+    queryset = Harvest.objects.all()
     filter_backends = (filters.SearchFilter,)
-
-    def list(self, request):
-        queryset = Harvest.objects.all()
-        serializer = HarvestSerializer(queryset, many=True)
-        return Response(serializer.data)
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -160,17 +126,23 @@ class HarvestViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(status=status.HTTP_201_CREATED, headers=headers)
 
-    def retrieve(self, request, pk=None):
-        queryset = Harvest.objects.all()
-        harvest = get_object_or_404(queryset, pk=pk)
-        serializer = HarvestSerializer(farm)
-        return Response(serializer.data)
 
-    def update(self, request, pk=None):
-        pass
+"""
+class that creates, updates and gets resources against 
+api-key/auth-token for use by other services
+"""
 
-    def partial_update(self, request, pk=None):
-        pass
 
-    def destroy(self, request, pk=None):
-        pass
+class ResourceViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = ResourceSerializer
+    queryset = Resource.objects.all()
+    filter_backends = (filters.SearchFilter,)
+
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(status=status.HTTP_201_CREATED, headers=headers)

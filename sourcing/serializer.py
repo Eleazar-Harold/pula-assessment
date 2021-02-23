@@ -14,27 +14,35 @@ class ResourceSerializer(serializers.ModelSerializer):
         fields = (
             "name",
             "image",
+            "harvest",
         )
+        extra_kwargs = {
+            "name": {"required": True},
+            "image": {"required": True},
+            "harvest": {"required": True},
+        }
+
+    def create(self, validated_data):
+        resource = Resource.objects.create(**validated_data)
+        return resource
 
 
 class HarvestSerializer(serializers.ModelSerializer):
-    resources = ResourceSerializer(
-        many=True,
-    )
-
     class Meta:
         model = Harvest
         fields = (
             "harvest_weight",
             "dry_weight",
+            "farm",
         )
+        extra_kwargs = {
+            "harvest_weight": {"required": True},
+            "dry_weight": {"required": True},
+            "farm": {"required": True},
+        }
 
     def create(self, validated_data):
-        resources_data = validated_data.pop("resources")
-        harvest, created = Harvest.objects.get_or_create(**validated_data)
-        if created:
-            for resource_data in resources_data:
-                Resource.objects.create(harvest=harvest, **resource_data)
+        harvest = Harvest.objects.create(**validated_data)
         return harvest
 
 
@@ -46,15 +54,13 @@ class FarmSerializer(serializers.ModelSerializer):
             "size",
             "crop",
             "town",
-            "location",
-            "farms",
+            "owner",
         )
         extra_kwargs = {
             "name": {"required": True},
             "size": {"required": True},
             "crop": {"required": True},
             "town": {"required": True},
-            "location": {"required": True},
             "owner": {"required": True},
         }
 

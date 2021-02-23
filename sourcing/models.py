@@ -23,10 +23,6 @@ class Base(models.Model):
         auto_now_add=True,
         editable=False,
     )
-    created_by = models.IntegerField(
-        blank=True,
-        null=True,
-    )
     created_by = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
