@@ -4,12 +4,16 @@ from rest_framework import routers
 from sourcing.views import (
     LoginViewSet,
     UserViewSet,
+    FarmViewSet,
+    HardViewSet,
 )
 
 
 router = routers.DefaultRouter()
-router.register("v1/authtoken/generate", UserViewSet, base_name="generate_auth_token")
-router.register("v1/authtoken/obtain", LoginViewSet, base_name="obtain_auth_token")
+router.register("v1/authtoken/generate", UserViewSet, basename="generate_auth_token")
+router.register("v1/authtoken/obtain", LoginViewSet, basename="obtain_auth_token")
+router.register("v1/farm/", FarmViewSet, basename="farms")
+router.register("v1/harvest/", HarvestViewSet, basename="harvests")
 
 
 router.get_api_root_view().cls.__name__ = "Sourcing API"
