@@ -1,14 +1,13 @@
+import uuid
+
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
 from location_field.models.plain import PlainLocationField
 
-from sourcing.querysets import (
-    FarmQueryset,
-    HarvestQueryset,
-    ResourceQueryset,
-)
-import uuid
+from sourcing.querysets import FarmQueryset, HarvestQueryset, ResourceQueryset
 
 # Create your models here.
 
@@ -85,6 +84,17 @@ class Farm(Base):
 
     objects = FarmQueryset.as_manager()
 
+    class Meta:
+        ordering = (
+            "town",
+            "name",
+            "crop",
+            "size",
+        )
+
+    def __str__(self):
+        return f"{self.name}-{self.owner.username}"
+
 
 class Harvest(Base):
     farm = models.ForeignKey(
@@ -105,6 +115,19 @@ class Harvest(Base):
 
     objects = HarvestQueryset.as_manager()
 
+    def __str__(self):
+        return f"{self.farm.name}"
+
+    def save(self, *args, **kwargs):
+        is_calibrated = self.dry_weight < self.harvest_weight
+        if is_calibrated:
+            super().save(*args, **kwargs)
+        else:
+            raise Exception(
+                "dry weight cannot be greater than or equal to harvest weight.",
+            )
+        return
+
 
 class Resource(Base):
     name = models.CharField(max_length=50)
@@ -116,3 +139,12 @@ class Resource(Base):
     image = models.ImageField(upload_to="resources")
 
     objects = ResourceQueryset.as_manager()
+
+    class Meta:
+        ordering = (
+            "name",
+            "harvest",
+        )
+
+    def __str__(self):
+        return f"{self.name}"

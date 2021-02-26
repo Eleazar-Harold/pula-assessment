@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from django.db import models
 
 
@@ -12,11 +10,6 @@ class FarmQueryset(models.QuerySet):
 
 
 class HarvestQueryset(models.QuerySet):
-    def compare(self):
-        if self.harvest_weight < self.dry_weight:
-            return error("harvest weight cannot be less that dry weight")
-        return self
-
     def for_farm(self, farm):
         return self.filter(farm=farm)
 

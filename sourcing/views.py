@@ -1,35 +1,19 @@
 from django.contrib.auth.models import User
-from django.shortcuts import (
-    get_object_or_404,
-    render,
-)
 
-
-from rest_framework import (
-    viewsets,
-    status,
-    filters,
-)
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import filters, status, viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import (
-    IsAuthenticatedOrReadOnly,
-    IsAuthenticated,
-)
-from rest_framework.authtoken.models import Token
-from sourcing.models import (
-    Farm,
-    Harvest,
-    Resource,
-)
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
+
+from sourcing.models import Farm, Harvest, Resource
 from sourcing.serializer import (
-    UserSerializer,
     FarmSerializer,
     HarvestSerializer,
     ResourceSerializer,
+    UserSerializer,
 )
 
 # Create your views here.
@@ -80,13 +64,16 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 """
-class that creates, updates and gets farms against 
+class that creates, updates and gets farms against
 api-key/auth-token for use by other services
 """
 
 
 class FarmViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (
+        IsAuthenticated,
+        IsAuthenticatedOrReadOnly,
+    )
     authentication_classes = (TokenAuthentication,)
     serializer_class = FarmSerializer
     queryset = Farm.objects.all()
@@ -107,13 +94,16 @@ class FarmViewSet(viewsets.ModelViewSet):
 
 
 """
-class that creates, updates and gets harvests against 
+class that creates, updates and gets harvests against
 api-key/auth-token for use by other services
 """
 
 
 class HarvestViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (
+        IsAuthenticated,
+        IsAuthenticatedOrReadOnly,
+    )
     authentication_classes = (TokenAuthentication,)
     serializer_class = HarvestSerializer
     queryset = Harvest.objects.all()
@@ -128,13 +118,16 @@ class HarvestViewSet(viewsets.ModelViewSet):
 
 
 """
-class that creates, updates and gets resources against 
+class that creates, updates and gets resources against
 api-key/auth-token for use by other services
 """
 
 
 class ResourceViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (
+        IsAuthenticated,
+        IsAuthenticatedOrReadOnly,
+    )
     authentication_classes = (TokenAuthentication,)
     serializer_class = ResourceSerializer
     queryset = Resource.objects.all()

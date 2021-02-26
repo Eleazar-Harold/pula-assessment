@@ -1,16 +1,18 @@
-import factory
+from random import randint
+
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
+
+import factory
+
 from sourcing.models import (
     Farm,
     Harvest,
     Resource,
 )
 
-from random import randint
 
-
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory):
     is_active = True
     email = factory.Sequence("user-{}@example.com".format)
     username = factory.Sequence("User {}".format)
@@ -22,11 +24,11 @@ class UserFactory(factory.DjangoModelFactory):
         model = User
 
 
-class FarmFactory(factory.DjangoModelFactory):
+class FarmFactory(factory.django.DjangoModelFactory):
     is_active = True
     name = factory.Sequence("Farm {}".format)
     owner = factory.SubFactory(UserFactory)
-    size = randint(0, 20)
+    size = randint(101, 200)
     crop = factory.Sequence("Crop {}".format)
     town = factory.Sequence("Town {}".format)
     created_by = factory.SubFactory(UserFactory)
@@ -35,17 +37,17 @@ class FarmFactory(factory.DjangoModelFactory):
         model = Farm
 
 
-class HarvestFactory(factory.DjangoModelFactory):
+class HarvestFactory(factory.django.DjangoModelFactory):
     farm = factory.SubFactory(FarmFactory)
-    harvest_weight = randint(11, 20)
-    dry_weight = randint(1, 10)
+    harvest_weight = randint(101, 200)
+    dry_weight = randint(1, 100)
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
         model = Harvest
 
 
-class ResourceFactory(factory.DjangoModelFactory):
+class ResourceFactory(factory.django.DjangoModelFactory):
     harvest = factory.SubFactory(HarvestFactory)
     name = factory.Sequence("Image {}".format)
     image = image = factory.LazyAttribute(

@@ -7,9 +7,9 @@ For more information on this file, see
 https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 """
 
-from core import os, Cling
-
 from django.core.wsgi import get_wsgi_application
+
+from core import Cling, os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 

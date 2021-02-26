@@ -4,10 +4,14 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pep8 = "*"
+black = "==20.8b0"
+isort = "==5.7.0"
+flake8 = "*"
 
 [packages]
 django = "==2.2.19"
-djangorestframework = "*"
+djangorestframework = "==3.9.4"
 requests = "*"
 python-decouple = "*"
 dj-static = "*"
@@ -19,6 +23,7 @@ django-celery-results = "*"
 django-storages = "*"
 django-location-field = "*"
 pillow = "*"
+factory-boy = "==3.2.0"
 
 [requires]
 python_version = "3.7"

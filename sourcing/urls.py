@@ -1,14 +1,14 @@
-from django.urls import path, include
+from django.urls import include, path
+
 from rest_framework import routers
 
 from sourcing.views import (
-    LoginViewSet,
-    UserViewSet,
     FarmViewSet,
     HarvestViewSet,
+    LoginViewSet,
     ResourceViewSet,
+    UserViewSet,
 )
-
 
 router = routers.DefaultRouter()
 router.register("v1/authtoken/generate", UserViewSet, basename="generate_auth_token")
