@@ -1,9 +1,18 @@
 from django.test import TestCase
 
-from .factories import FarmFactory, HarvestFactory, ResourceFactory, UserFactory
+from .factories import (
+    FarmFactory,
+    HarvestFactory,
+    ResourceFactory,
+    UserFactory,
+)
 
-from ..models import Farm, Harvest, Resource, User
-
+from ..models import (
+    Farm,
+    Harvest,
+    Resource,
+    User,
+)
 
 
 class TestFarmQueryset(TestCase):
@@ -74,4 +83,3 @@ class TestResourceQueryset(TestCase):
 
         expected = {resource_ii}
         self.assertSequenceEqual(set(self.manager.for_harvest(harvest)), expected)
-
