@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+cp .env.example .env
 docker-compose -f stack-dev.yml build
 docker-compose -f stack-dev.yml run app python manage.py test
 docker-compose -f stack-dev.yml down # Remove possibly previous broken stacks left hanging after an error
