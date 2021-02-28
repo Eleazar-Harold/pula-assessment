@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_celery_results",
     "location_field.apps.DefaultConfig",
+    "drf_yasg",
     # apps
     "sourcing",
 ]

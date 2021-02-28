@@ -80,9 +80,13 @@ class FarmViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = (
         "name",
+        "size",
         "crop",
         "town",
-        "farms",
+        "owner__username",
+        "owner__last_name",
+        "owner__first_name",
+        "id",
     )
 
     def create(self, request):
@@ -108,6 +112,15 @@ class HarvestViewSet(viewsets.ModelViewSet):
     serializer_class = HarvestSerializer
     queryset = Harvest.objects.all()
     filter_backends = (filters.SearchFilter,)
+    search_fields = (
+        "harvest_weight",
+        "dry_weight",
+        "farm__name",
+        "farm__owner__username",
+        "farm__owner__last_name",
+        "farm__owner__first_name",
+        "id",
+    )
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -132,6 +145,12 @@ class ResourceViewSet(viewsets.ModelViewSet):
     serializer_class = ResourceSerializer
     queryset = Resource.objects.all()
     filter_backends = (filters.SearchFilter,)
+    search_fields = (
+        "name",
+        "image",
+        "harvest__farm__name",
+        "id",
+    )
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)

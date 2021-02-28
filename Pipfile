@@ -23,6 +23,7 @@ django-celery-results = "*"
 django-storages = "*"
 django-location-field = "*"
 pillow = "*"
+drf-yasg = "==1.17.0"
 factory-boy = "==3.2.0"
 
 [requires]
