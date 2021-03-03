@@ -2,9 +2,6 @@ from django.http import JsonResponse
 
 from rest_framework.exceptions import (
     ValidationError,
-    Http404,
-    PermissionDenied,
-    NotAuthenticated,
 )
 from rest_framework.views import exception_handler
 
@@ -52,10 +49,10 @@ def handle_generic_error(exc, context, response):
 
 def base_exception_handler(exc, context):
     handlers = {
-        ValidationError.__class__.__name__: handle_generic_error,
-        Http404.__class__.__name__: handle_generic_error,
-        PermissionDenied.__class__.__name__: handle_generic_error,
-        NotAuthenticated.__class__.__name__: handle_auth_error,
+        "ValidationError": handle_generic_error,
+        "Http404": handle_generic_error,
+        "PermissionDenied": handle_generic_error,
+        "NotAuthenticated": handle_auth_error,
     }
     response = exception_handler(exc, context)
     exception = exc.__class__.__name__
