@@ -30,12 +30,12 @@ export default new VueRouter({
         },
         {
             path: '/harvest',
-            name: 'harvest',
+            name: 'harvests',
             component: Harvest,
         },
         {
             path: '/resource',
-            name: 'resource',
+            name: 'resources',
             component: Resource,
         },
     ]
