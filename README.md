@@ -12,14 +12,14 @@
 
 ###### For Development ######
 1. Run `sh destroy-dev.sh && sh deploy-dev.sh` from the project root folder to build the images and run the containers.
-2. Test it out by loading [api documentation](http://localhost:4000/swagger/).
+2. Test it out by loading [api documentation](http://localhost:4000/doc/).
 
 NB: The script `deploy-dev.sh` will build the service, create migrations, run migrations and propage the service build.
 
 ###### For Production ######
 1. A little more configuration will be required for the production set up, thought the procedure is similar to the development setup.
 2. Run `sh deploy-prod.sh` from the project root folder to build the images and run the containers.
-3. Test it out by loading [api documentation](http://localhost:4000/swagger/).
+3. Test it out by loading [api documentation](http://localhost:4000/doc/).
 
 ###### Environment File ######
 Example `.env.dev.example` file:
