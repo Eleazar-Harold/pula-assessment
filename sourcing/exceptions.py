@@ -1,5 +1,8 @@
 from django.http import JsonResponse
 
+from rest_framework.exceptions import (
+    ValidationError,
+)
 from rest_framework.views import exception_handler
 
 
