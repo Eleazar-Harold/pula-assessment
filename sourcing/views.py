@@ -53,12 +53,14 @@ class AccountViewSet(viewsets.ModelViewSet):
         token, created = Token.objects.get_or_create(user=serializer.instance)
         return (
             Response(
-                user=UserSerializer(
-                    serializer.data, context=self.get_serializer_context()
-                ).data,
-                status=status.HTTP_201_CREATED,
-                headers=headers,
-                token=token,
+                dict(
+                    user=UserSerializer(
+                        serializer.data, context=self.get_serializer_context()
+                    ).data,
+                    status=status.HTTP_201_CREATED,
+                    headers=headers,
+                    token=token,
+                )
             )
             if created
             else Response(
