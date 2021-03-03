@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="farm in farmData" :key="farm.id" class="col-md-4">
+                    <tr v-for="farm in ApiData" :key="farm.id" class="col-md-4">
                         <th scope="row"></th>
                         <td>{{farm.name}}</td>
                         <td>{{farm.crop}}</td>
@@ -33,7 +33,7 @@
 <script>
 import { api } from '../axios.api';
 import Navbar from '../components/Navbar';
-import {mapState} from 'vuex';
+// import {mapState} from 'vuex';
 export default {
     name: 'Farms',
     onIdle () {
@@ -44,18 +44,18 @@ export default {
     },
     data()  {
         return {
-            farmData: []
+            ApiData: []
         }
     },
     components: {
         Navbar
     },
-    computed: mapState(['farmData']),
+    // computed: mapState(['ApiData']),
     created() {
-        api.get('farm',{headers: {Authorization: `Bearer ${this.$store.state.accessToken}`}})
+        api.get('farm',{headers: {Authorization: `Token ${this.$store.state.accessToken}`}})
         .then(response => {
             console.log('Farm API has received data')
-            this.$store.state.farmData = response.data
+            this.$store.state.ApiData = response.data
         }).catch(err => {
             console.log(err)
         })
