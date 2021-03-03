@@ -8,7 +8,6 @@
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
                     <router-link :to = "{ name:'farms'}" exact class="nav-link">Farms</router-link>
                 </li>
                 <li class="nav-item">
@@ -25,3 +24,17 @@
         </div>
     </nav>
 </template>
+
+<script>
+  import { mapState } from 'vuex'
+  export default {
+    name: 'Navbar',
+    computed: mapState(['accessToken'])
+  }
+</script>
+
+<style scoped>
+    a {
+      color:#000;
+  }
+</style>

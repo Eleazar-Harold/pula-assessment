@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="harvest in harvestData" :key="harvest.id" class="col-md-4">
+                    <tr v-for="harvest in ApiData" :key="harvest.id" class="col-md-4">
                         <th scope="row"></th>
                         <td>{{harvest.harvest_weight}}</td>
                         <td>{{harvest.dry_weight}}</td>
@@ -31,7 +31,7 @@
 <script>
 import { api } from '../axios.api';
 import Navbar from '../components/Navbar';
-import {mapState} from 'vuex';
+// import {mapState} from 'vuex';
 export default {
     name: 'Harvests',
     onIdle () {
@@ -42,18 +42,18 @@ export default {
     },
     data()  {
         return {
-            harvestData: []
+            ApiData: []
         }
     },
     components: {
         Navbar
     },
-    computed: mapState(['harvestData']),
+    // computed: mapState(['ApiData']),
     created() {
-        api.get('harvest',{headers: {Authorization: `Bearer ${this.$store.state.accessToken}`}})
+        api.get('harvest',{headers: {Authorization: `Token ${this.$store.state.accessToken}`}})
         .then(response => {
             console.log('Harvest API has received data')
-            this.$store.state.harvestData = response.data
+            this.$store.state.ApiData = response.data
         }).catch(err => {
             console.log(err)
         })

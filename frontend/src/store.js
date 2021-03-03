@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         accessToken: null,
-        APIData: ''
+        ApiData: '',
     },
     mutations: {
         updateStorage(state, { access }) {
@@ -33,6 +33,25 @@ export default new Vuex.Store({
                 api.post('token/obtain/', {
                     username: usercredentials.username,
                     password: usercredentials.password
+                })
+                    .then(response => {
+                        context.commit('updateStorage', { access: response.data.token });
+                        resolve();
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        },
+        userRegister(context, usercredentials) {
+            return new Promise((resolve, reject) => {
+                api.post('token/generate/', {
+                    username: usercredentials.username,
+                    password: usercredentials.password,
+                    password2: usercredentials.password2,
+                    email: usercredentials.email,
+                    first_name: usercredentials.first_name,
+                    last_name: usercredentials.last_name
                 })
                     .then(response => {
                         context.commit('updateStorage', { access: response.data.token });

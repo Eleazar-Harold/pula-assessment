@@ -5,6 +5,7 @@ import Farm from './views/Farm';
 import Login from './views/Login';
 import Logout from './views/Logout';
 import Harvest from './views/Harvest';
+import Register from './views/Register';
 import Resource from './views/Resource';
 
 Vue.use(VueRouter);
@@ -14,9 +15,12 @@ export default new VueRouter({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: '/',
+            path: '/farm',
             name: 'farms',
             component: Farm,
+            meta: {
+                requiresLogin: true
+            }
         },
         {
             path: '/',
@@ -29,14 +33,25 @@ export default new VueRouter({
             component: Logout,
         },
         {
+            path: '/signup',
+            name: 'signup',
+            component: Register,
+        },
+        {
             path: '/harvest',
             name: 'harvests',
             component: Harvest,
+            meta: {
+                requiresLogin: true
+            }
         },
         {
             path: '/resource',
             name: 'resources',
             component: Resource,
+            meta: {
+                requiresLogin: true
+            }
         },
     ]
 });
