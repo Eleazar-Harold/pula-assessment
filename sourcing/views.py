@@ -51,25 +51,15 @@ class AccountViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         token, created = Token.objects.get_or_create(user=serializer.instance)
-        return (
-            Response(
-                dict(
-                    user=UserSerializer(
-                        serializer.data, context=self.get_serializer_context()
-                    ).data,
-                    status=status.HTTP_201_CREATED,
-                    headers=headers,
-                    token=token,
-                )
-            )
-            if created
-            else Response(
-                {
-                    "status": "Bad request",
-                    "message": "Account could not be created with received data.",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        return Response(
+            {
+                "token": token.key,
+                "user": UserSerializer(
+                    serializer.data, context=self.get_serializer_context()
+                ).data,
+            },
+            status=status.HTTP_201_CREATED,
+            headers=headers,
         )
 
 
@@ -105,11 +95,11 @@ class FarmViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(status=status.HTTP_201_CREATED, headers=headers)
-    
-    @detail_route(methods=['get'])
+
+    @detail_route(methods=["get"])
     def harvests(self, request, pk=None):
-        queryset = Harvest.objects.filter(farm__pk=pk).order_by('-created')
-        context = {'request': request}
+        queryset = Harvest.objects.filter(farm__pk=pk).order_by("-created")
+        context = {"request": request}
         serializer = HarvestSerializer(queryset, context=context, many=True)
 
         return Response(serializer.data)
@@ -146,11 +136,11 @@ class HarvestViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(status=status.HTTP_201_CREATED, headers=headers)
-    
-    @detail_route(methods=['get'])
+
+    @detail_route(methods=["get"])
     def resources(self, request, pk=None):
-        queryset = Resource.objects.filter(harvest__pk=pk).order_by('-created')
-        context = {'request': request}
+        queryset = Resource.objects.filter(harvest__pk=pk).order_by("-created")
+        context = {"request": request}
         serializer = ResourceSerializer(queryset, context=context, many=True)
 
         return Response(serializer.data)

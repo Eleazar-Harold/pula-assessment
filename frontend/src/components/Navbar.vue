@@ -12,7 +12,7 @@
                     <router-link :to = "{ name:'farms'}" exact class="nav-link">Farms</router-link>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                    <router-link :to = "{ name:'harvests'}" exact class="nav-link">Harvest</router-link>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Pricing</a>
