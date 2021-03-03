@@ -12,15 +12,15 @@ from sourcing.views import (
     HarvestViewSet,
     LoginViewSet,
     ResourceViewSet,
-    UserViewSet,
+    AccountViewSet,
 )
 
 router = routers.DefaultRouter()
-router.register("v1/token/generate", UserViewSet, basename="generate_auth_token")
-router.register("v1/token/obtain", LoginViewSet, basename="obtain_auth_token")
-router.register("v1/farm", FarmViewSet, basename="farms")
-router.register("v1/harvest", HarvestViewSet, basename="harvests")
-router.register("v1/resource", ResourceViewSet, basename="resources")
+router.register("api/v1/token/generate", AccountViewSet, basename="generate_auth_token")
+router.register("api/v1/token/obtain", LoginViewSet, basename="obtain_auth_token")
+router.register("api/v1/farm", FarmViewSet, basename="farms")
+router.register("api/v1/harvest", HarvestViewSet, basename="harvests")
+router.register("api/v1/resource", ResourceViewSet, basename="resources")
 
 router.get_api_root_view().cls.__name__ = "Sourcing API"
 router.get_api_root_view().cls.__doc__ = (
