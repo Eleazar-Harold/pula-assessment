@@ -183,7 +183,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         password2 = validated_data.pop("password2")
 
         if password != password2:
-            raise serializers.ValidationError("Password must match")
+            raise serializers.ValidationError('passwords must match')
         user, created = User.objects.get_or_create(**validated_data)
         if created:
             user.set_password(password)
