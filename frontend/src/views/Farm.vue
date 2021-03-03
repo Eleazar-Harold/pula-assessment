@@ -4,21 +4,26 @@
         <div class="album py-5 bg-light">
           <div class="container">
             <div class="row">
-              <div v-for="farm in farmData" :key="farm.id" class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                  <img class="card-img-top" src="https://via.placeholder.com/150x100" alt="Card image cap">
-                  <div class="card-body">
-                      <h4 class=""><a class="text-secondary" href="">{{farm.town}}</a></h4>
-                      <p class="card-text">{{farm.name}}</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                      <a href="" class="btn btn-sm btn-outline-primary" role="button" aria-pressed="true">View</a>
-                      <a href="" class="btn btn-sm btn-outline-secondary" role="button" aria-pressed="true">Edit</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Crop</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Town</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="farm in farmData" :key="farm.id" class="col-md-4">
+                        <th scope="row"></th>
+                        <td>{{farm.name}}</td>
+                        <td>{{farm.crop}}</td>
+                        <td>{{farm.size}}</td>
+                        <td>{{farm.town}}</td>
+                    </tr>
+                </tbody>
+                </table>
             </div>
           </div>
       </div>
@@ -28,8 +33,15 @@
 <script>
 import { api } from '../axios.api';
 import Navbar from '../components/Navbar';
+import {mapState} from 'vuex';
 export default {
     name: 'Farms',
+    onIdle () {
+      this.$store.dispatch('userLogout')
+        .then(() => {
+          this.$router.push({ name: 'login' })
+        })
+    },
     data()  {
         return {
             farmData: []
@@ -38,11 +50,12 @@ export default {
     components: {
         Navbar
     },
+    computed: mapState(['farmData']),
     created() {
-        api.get('farm',)
+        api.get('farm',{headers: {Authorization: `Bearer ${this.$store.state.accessToken}`}})
         .then(response => {
             console.log('Farm API has received data')
-            this.farmData = response.data
+            this.$store.state.farmData = response.data
         }).catch(err => {
             console.log(err)
         })
