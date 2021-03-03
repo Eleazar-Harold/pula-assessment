@@ -46,3 +46,6 @@ urlpatterns = [
     path('doc/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path("", TemplateView.as_view(template_name="index.html"))
 ]
+
+handle404 = 'sourcing.exceptions.error404'
+handle500 = 'sourcing.exceptions.error500'

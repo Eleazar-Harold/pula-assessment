@@ -1,10 +1,20 @@
-from rest_framework.exceptions import ValidationError
+from django.http import JsonResponse
+
+from rest_framework.exceptions import (
+    ValidationError,
+    Http404,
+    PermissionDenied,
+    NotAuthenticated,
+)
 from rest_framework.views import exception_handler
 
 
-def base_exception_handler(exc, context):
-    response = exception_handler(exc, context)
+def handle_auth_error(exc, context, response):
+    response.data = {"error": "authorization token required to handle this request."}
+    return response
 
+
+def handle_generic_error(exc, context, response):
     if isinstance(exc, ValidationError):
         if response.data.get("username", None):
             response.data = response.data["username"][0]
@@ -37,4 +47,41 @@ def base_exception_handler(exc, context):
         elif response.data.get("harvest", None):
             response.data = response.data["harvest"][0]
 
+    return response
+
+
+def base_exception_handler(exc, context):
+    handlers = {
+        ValidationError.__class__.__name__: handle_generic_error,
+        Http404.__class__.__name__: handle_generic_error,
+        PermissionDenied.__class__.__name__: handle_generic_error,
+        NotAuthenticated.__class__.__name__: handle_auth_error,
+    }
+    response = exception_handler(exc, context)
+    exception = exc.__class__.__name__
+
+    if exception in handlers:
+        return handlers[exception](exc, context, response)
+    return response
+
+
+def error404(request):
+    message = "The endpoint does not exist"
+    response = JsonResponse(
+        data={
+            "message": message,
+            "status_code": 404,
+        }
+    )
+    return response
+
+
+def error500(request):
+    message = "This error is on us, we'll get back to you after resolving it."
+    response = JsonResponse(
+        data={
+            "message": message,
+            "status_code": 500,
+        }
+    )
     return response
