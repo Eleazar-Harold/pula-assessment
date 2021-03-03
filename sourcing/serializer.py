@@ -177,14 +177,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
             "min_length"
         ] = u"password must be at least 8 chars"
 
-    def create(self):
+    def create(self, validated_data):
         """Create and return a new user."""
-        password = self.validated_data.pop("password")
-        password2 = self.validated_data.pop("password2")
+        password = validated_data.pop("password")
+        password2 = validated_data.pop("password2")
 
         if password != password2:
             raise serializers.ValidationError({"password": "Password must match"})
-        user, created = User.objects.get_or_create(**self.validated_data)
+        user, created = User.objects.get_or_create(**validated_data)
         if created:
             user.set_password(password)
             user.save()
