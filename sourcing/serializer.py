@@ -34,11 +34,11 @@ class ResourceSerializer(serializers.ModelSerializer):
         self.fields["image"].error_messages["required"] = u"image is required"
         self.fields["image"].error_messages["blank"] = u"image cannot be blank"
 
-    def get_validation_exclusions(self, *args, **kwargs):
-        # exclude the farm field as we supply it later on in the
-        # corresponding view based on the http request
-        exclusions = super(ResourceSerializer, self).get_validation_exclusions(*args, **kwargs)
-        return exclusions + ['harvest']
+    # def get_validation_exclusions(self, *args, **kwargs):
+    #     # exclude the farm field as we supply it later on in the
+    #     # corresponding view based on the http request
+    #     exclusions = super(ResourceSerializer, self).get_validation_exclusions(*args, **kwargs)
+    #     return exclusions + ['harvest']
 
     def create(self, validated_data):
         resource = Resource.objects.create(**validated_data)
@@ -72,11 +72,11 @@ class HarvestSerializer(serializers.ModelSerializer):
         self.fields["dry_weight"].error_messages["required"] = u"dry weight is required"
         self.fields["dry_weight"].error_messages["blank"] = u"dry weight cannot be blank"
     
-    def get_validation_exclusions(self, *args, **kwargs):
-        # exclude the farm field as we supply it later on in the
-        # corresponding view based on the http request
-        exclusions = super(HarvestSerializer, self).get_validation_exclusions(*args, **kwargs)
-        return exclusions + ['farm']
+    # def get_validation_exclusions(self, *args, **kwargs):
+    #     # exclude the farm field as we supply it later on in the
+    #     # corresponding view based on the http request
+    #     exclusions = super(HarvestSerializer, self).get_validation_exclusions(*args, **kwargs)
+    #     return exclusions + ['farm']
 
     def create(self, validated_data):
         hw = validated_data.pop("harvest_weight")
@@ -121,11 +121,11 @@ class FarmSerializer(serializers.ModelSerializer):
         self.fields["town"].error_messages["required"] = u"town is required"
         self.fields["town"].error_messages["blank"] = u"town cannot be blank"
 
-    def get_validation_exclusions(self, *args, **kwargs):
-        # exclude the farm field as we supply it later on in the
-        # corresponding view based on the http request
-        exclusions = super(FarmSerializer, self).get_validation_exclusions(*args, **kwargs)
-        return exclusions + ['owner']
+    # def get_validation_exclusions(self, *args, **kwargs):
+    #     # exclude the farm field as we supply it later on in the
+    #     # corresponding view based on the http request
+    #     exclusions = super(FarmSerializer, self).get_validation_exclusions(*args, **kwargs)
+    #     return exclusions + ['owner']
 
     def create(self, validated_data):
         farm = Farm.objects.create(**validated_data)
