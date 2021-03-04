@@ -47,17 +47,29 @@ services:
       - "6379:6379"
     restart: "always"
   
-  wkr:
-    <<: *app
-    command: chmod +x ./appcelery.sh
-    restart: "on-failure"
-    ports: []
-    depends_on: 
-      - rds
-      - db
-    links: 
-      - rds
-      - db
+  # web
+  web:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    restart: "always"
+    volumes:
+      - .:/app
+    depends_on:
+      - app
+  
+  # worker
+  # wkr:
+  #   <<: *app
+  #   command: chmod +x ./appcelery.sh
+  #   restart: "on-failure"
+  #   ports: []
+  #   depends_on: 
+  #     - rds
+  #     - db
+  #   links: 
+  #     - rds
+  #     - db
 
 volumes:
   data:
